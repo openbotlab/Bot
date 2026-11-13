@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Create a bot or set up one you already have. Deploy it on a cloud server or your own server with SetupBot.">
+<title>SetupBot — Create, set up, and deploy your bot</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/setupbot-green-favicon.png">
+<link rel="apple-touch-icon" href="/setupbot-green-logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#0a0a0a;--text:#fafafa;--muted:#a3a3a3;--dim:#737373;--border:#303030}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--muted);font:14px/1.6 Geist,Arial,sans-serif}a{color:inherit;text-underline-offset:3px}a:hover{color:var(--text)}a:focus-visible,button:focus-visible{outline:2px solid #8cbfff;outline-offset:4px}
+.banner{display:block;text-align:center;background:#141414;color:#eee;text-decoration:none;padding:8px 12px;font-size:13px;font-weight:500}.banner span{margin-left:10px;color:#888}
+main{max-width:576px;margin:auto;padding:80px 24px 48px}.brand{display:flex;align-items:center;gap:16px;margin-bottom:24px;color:var(--text)}.logo{display:block;flex:none;width:42px;height:42px;border-radius:8px}h1{font-size:30px;letter-spacing:-1.2px;margin:0;font-weight:600}p{margin:0 0 13px}.lead{color:var(--text);font-size:18px;line-height:1.5;font-weight:500;margin-bottom:12px}strong{color:#ededed;font-weight:600}
+.cta{display:inline-flex;align-items:center;gap:7px;background:#39801C;color:#fff;text-decoration:none;border-radius:6px;padding:7px 12px;font-size:12px;line-height:1.5;font-weight:700}.cta:hover{color:#fff;background:#306c18}section{margin-top:54px}h2{color:#a3a3a3;font-size:14px;font-weight:600;margin:0 0 14px}h3{font-size:14px;color:#ededed;margin:0 0 3px;font-weight:600}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card,.plan{border:1px solid var(--border);border-radius:9px;padding:12px 15px;background:transparent}.card p,.plan small{font-size:12px;line-height:1.4;margin:0}.step{display:flex;align-items:flex-start;gap:13px;margin:0 0 15px}.step span{display:grid;place-items:center;flex:0 0 26px;height:26px;border-radius:50%;background:#202020;color:#eee}.step p{margin:0}.faq article{margin-bottom:20px}footer{border-top:1px solid var(--border);padding-top:20px;margin-top:48px;font-size:12px;color:var(--dim)}
+@media(max-width:520px){main{padding:52px 20px 36px}.brand{margin-bottom:21px}section{margin-top:44px}.card{padding:11px}}
+@media(max-width:345px){.grid{grid-template-columns:1fr}}
+
+.hero-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.card{padding:14px 15px}.hosting-note{margin:12px 0 0;font-size:13px}.faq p{margin-bottom:0}section[id]{scroll-margin-top:24px}
+
+.bottom{background:#000;padding:0 clamp(20px,5.5vw,114px)}
+.deploy-panel{margin:0 auto;max-width:1800px;background:#1f1f1f;border-radius:9px;padding:clamp(58px,8vw,150px) 24px;text-align:center}
+.deploy-panel h2{color:var(--text);font-size:clamp(32px,4vw,60px);font-weight:500;line-height:1.08;letter-spacing:-.045em;margin-bottom:20px}
+.deploy-panel p{max-width:590px;margin:0 auto 30px;color:#dedede;font-size:clamp(15px,1.5vw,20px)}
+.deploy-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+.deploy-actions .cta{border-radius:999px}
+.cta.secondary{background:#383838}
+.cta.secondary:hover{background:#4b4b4b}
+footer.site-footer{max-width:1800px;margin:36px auto 0;padding:28px 0 24px;font-size:13px}
+.site-footer h2{color:var(--text);font-size:22px;letter-spacing:-.025em;margin:0 0 4px}
+.site-footer p{margin:0}
+.footer-description{color:var(--muted);max-width:360px}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;margin-top:20px}
+.footer-bottom nav{display:flex;flex-wrap:wrap;gap:2px}
+.footer-credit{font-weight:500;color:var(--text)}
+.footer-copyright{color:var(--muted)}
+.social-link{display:inline-grid;width:34px;height:34px;place-items:center;border-radius:6px;color:var(--text)}
+a.social-link:hover{background:#202020}
+.social-link[aria-disabled=true]{color:#888}
+.social-link svg{width:17px;height:17px}
+.plan-price{font-size:26px;color:var(--text);margin:10px 0 0}.plan-details{padding-left:17px;font-size:12px}.plan-card .cta{margin-top:8px}
+.features .feature p{color:#ddd}.features .grid{gap:18px 12px;grid-template-columns:repeat(2,minmax(0,1fr))}.feature p{font-size:12px;line-height:1.4;margin:0}.feature-image{display:block;width:100%;height:auto;aspect-ratio:5/2;object-fit:contain;margin-bottom:10px}
+#plans{grid-template-columns:1fr;gap:20px}.tier,.plan-card{background:#1A1A1A}.hardware{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}.hardware th,.hardware td{text-align:left;padding:7px 4px;border-bottom:1px solid var(--border)}.hardware td:last-child,.hardware th:last-child{text-align:right;white-space:nowrap}.faq article p{line-height:1.65}.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.tier{border:1px solid var(--border);border-radius:8px;padding:11px;min-width:0}.tier h4{color:var(--text);margin:0}.tier-rate{color:#a4dd89;font-weight:600;margin:3px 0}.tier dl{font-size:12px;margin:8px 0}.tier dl div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:0 6px}.tier dd{margin:0;color:var(--text)}
+@media(max-width:540px){.tiers{grid-template-columns:1fr}}
+@media(max-width:480px){.features .grid{grid-template-columns:1fr}}
+.comparison td:last-child,.comparison th:last-child{text-align:left;white-space:normal}.comparison td,.comparison th{vertical-align:top;overflow-wrap:anywhere}
+.linux-logo{vertical-align:middle;object-fit:contain;margin-right:4px}
+</style>
+</head>
+<body>
+<a class="banner" href="#hosting">Deploy on a cloud server or your own server <span aria-hidden="true">›</span></a>
+<main>
+<header>
+  <div class="brand">
+    <img class="logo" src="/setupbot-green-logo.png" alt="" width="42" height="42">
+    <h1>SetupBot</h1>
+  </div>
+  <p class="lead">Create a bot and keep it running on a server.</p>
+  <p>Set up a new bot or deploy one you already have. Choose a cloud server or use your own so the bot can keep running when your laptop is closed.</p>
+  <div class="hero-actions">
+    <a class="cta" href="setup.html?mode=create">Create Bot</a>
+    <a class="cta secondary" href="#hosting">See Pricing</a>
+  </div>
+</header>
+
+<section class="features" aria-labelledby="features-title">
+  <h2 id="features-title">What your bot can do</h2>
+  <div class="grid">
+    <article class="feature"><img class="feature-image" src="/keep-working-banner.webp" alt="" width="1024" height="356" loading="lazy"><h3>Keep working in the background</h3><p>Run tasks on your server while your laptop is closed.</p></article>
+    <article class="feature"><img class="feature-image" src="/run-on-a-schedule.webp" alt="" width="1024" height="304" loading="lazy"><h3>Run on a schedule</h3><p>Configure recurring jobs such as daily summaries or status checks.</p></article>
+    <article class="feature"><img class="feature-image" src="/connect-plugins.webp" alt="" width="1024" height="365" loading="lazy"><h3>Connect your tools</h3><p>Configure integrations supported by the bot you deploy.</p></article>
+    <article class="feature"><img class="feature-image" src="/watch-bot-activity.webp" alt="" width="1024" height="410" loading="lazy"><h3>Review activity</h3><p>Use your bot’s logs to see what ran and troubleshoot errors.</p></article>
+  </div>
+  <p class="hosting-note">Available features depend on the bot and integrations you configure.</p>
+</section>
+
+<section id="hosting" aria-labelledby="hosting-title">
+  <h2 id="hosting-title">Choose your hosting plan</h2>
+  <p>Both plans show an example one-time setup fee. Server costs are separate.</p>
+  <div class="grid" id="plans"></div>
+  <noscript><p><a href="setup.html?plan=cloud">Cloud server setup</a> or <a href="setup.html?plan=own">your own server setup</a>. Enable JavaScript to use the setup preview.</p></noscript>
+</section>
+
+<section aria-labelledby="steps-title">
+  <h2 id="steps-title">How it works</h2>
+  <div class="step"><span aria-hidden="true">1</span><div><h3>Create or bring your bot</h3><p>Start with a new bot or use one you already have.</p></div></div>
+  <div class="step"><span aria-hidden="true">2</span><div><h3>Pick a server</h3><p>Rent a cloud server or use a server you manage.</p></div></div>
+  <div class="step"><span aria-hidden="true">3</span><div><h3>Deploy your bot</h3><p>Once deployed, your bot can keep running as long as the server stays online.</p></div></div>
+</section>
+
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">Faq</h2>
+  <article><h3>Can I deploy a bot I already have?</h3><p>Yes. You can use SetupBot to set up and deploy an existing bot.</p></article>
+  <article><h3>Who pays for hosting?</h3><p>You pay the cloud provider if you rent a server. If you use your own server, you cover its operating costs.</p></article>
+  <article><h3>Will my bot run when my laptop is closed?</h3><p>Yes. The bot runs on the server you choose. If that server loses power or its internet connection, tasks that rely on it may pause or fail until service is restored.</p></article>
+  <article><h3>How much does cloud hosting cost?</h3><p>Pro costs $20/month, Plus costs $50/month, and Max costs $100/month. The one-time setup fee is separate.</p></article>
+  <article><h3>Do I need to buy new hardware?</h3><p>You can reuse a compatible computer or server that can stay online. If you buy a barebones mini PC, check whether it includes RAM, storage, and a power adapter before ordering separate parts.</p></article>
+  <article><h3>Do I need a GPU?</h3><p>The listed cloud tiers are CPU-only. Bots that use a hosted model API can run without a local GPU. If you plan to run a model on the server itself, check that model’s hardware requirements.</p></article>
+  <article><h3>What other costs should I expect?</h3><p>For a cloud server, your provider may charge for extras such as backups or bandwidth. For your own server, budget for hardware, electricity, and internet. Paid model APIs and integrations can have separate fees.</p></article>
+  <article><h3>What happens after I select a plan?</h3><p>The setup page shows the selected plan, its server specs where applicable, and the one-time setup fee. You can enter sample details and preview payment.</p></article>
+</section>
+
+</main>
+<div class="bottom">
+<section class="deploy-panel" aria-labelledby="deploy-title">
+  <h2 id="deploy-title">Get your bot up and running</h2>
+  <p>Create a bot or bring one you already have. Deploy it to a cloud server or your own server so it can keep working when your laptop is closed.</p>
+  <div class="deploy-actions">
+    <a class="cta" href="#hosting">Get started</a>
+    <a class="cta secondary" href="#steps-title">See how it works</a>
+  </div>
+</section>
+<footer class="site-footer">
+  <h2>SetupBot</h2>
+  <p class="footer-description">Create, set up, and deploy bots on a cloud server or your own server.</p>
+  <div class="footer-bottom">
+  <nav aria-label="OpenBot social media">
+    <a class="social-link" href="https://x.com/openbotlab" aria-label="OpenBot on X" title="OpenBot on X">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932 6.064-6.933Zm-1.29 19.49h2.039L6.488 3.24H4.3l13.31 17.403Z"/></svg>
+    </a>
+    <span class="social-link" role="img" aria-label="YouTube (link unavailable)" aria-disabled="true" title="YouTube (link unavailable)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4" fill="currentColor"/><path d="m10 9 5 3-5 3Z" fill="#000"/></svg></span>
+    <span class="social-link" role="img" aria-label="LinkedIn (link unavailable)" aria-disabled="true" title="LinkedIn (link unavailable)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="2" fill="currentColor"/><path d="M7 10v7m4-7v7m0-4a3 3 0 0 1 6 0v4" stroke="#000" stroke-width="2"/><circle cx="7" cy="7" r="1" fill="#000"/></svg></span>
+    <span class="social-link" role="img" aria-label="GitHub (link unavailable)" aria-disabled="true" title="GitHub (link unavailable)"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.6 9.6 0 0 1 12 6.82c.85 0 1.7.12 2.49.34 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></span>
+    <span class="social-link" role="img" aria-label="Instagram (link unavailable)" aria-disabled="true" title="Instagram (link unavailable)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></span>
+    <span class="social-link" role="img" aria-label="TikTok (link unavailable)" aria-disabled="true" title="TikTok (link unavailable)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v12a4 4 0 1 1-4-4m4-8c.5 3 2.5 5 6 5" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg></span>
+    <span class="social-link" role="img" aria-label="Discord (link unavailable)" aria-disabled="true" title="Discord (link unavailable)"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 5a17 17 0 0 0-4-1l-.5 1a16 16 0 0 0-5 0L9 4a17 17 0 0 0-4 1C2.5 8.6 1.8 12 2 16c1.6 1.2 3.2 1.9 4.9 2.4l1-1.6-1.5-.8.4-.3a13 13 0 0 0 10.4 0l.4.3-1.5.8 1 1.6A16 16 0 0 0 22 16c.2-4-.5-7.4-3-11Z"/><ellipse cx="8.5" cy="12" rx="1.4" ry="1.7" fill="#000"/><ellipse cx="15.5" cy="12" rx="1.4" ry="1.7" fill="#000"/></svg></span>
+  </nav>
+  <p class="footer-credit">From OpenBot</p>
+  <p class="footer-copyright">© 2026 OpenBot</p>
+  </div>
+</footer>
+</div>
+<script type="module">
+  import { plans, formatPrice, cloudTiers, formatMonthly, tierSpecs } from './plans.js';
+
+  for (const [key, plan] of Object.entries(plans)) {
+    const card = document.createElement('article');
+    card.className = key === 'cloud' ? 'cloud-plans' : 'card plan-card';
+    card.innerHTML = `<h3>${plan.title}</h3><p>${plan.description}</p>
+      <div class="plan-price">${formatPrice(plan)}</div><p>One-time setup · Example price</p>
+      <ul class="plan-details">${plan.details.map(detail => `<li>${detail}</li>`).join('')}</ul>
+      ${key === 'cloud' ? `<p>Monthly cloud hosting prices in USD. The one-time setup fee is separate.</p>
+      <div class="tiers">${Object.entries(cloudTiers).map(([id, tier]) => `
+        <article class="tier">
+          <h4>${tier.title}</h4><div class="tier-rate">${formatMonthly(tier)}</div>
+          <dl>${tierSpecs(tier).map(([label,value]) => `<div><dt>${label}</dt><dd>${label === 'Operating system' ? '<img class="linux-logo" src="https://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg" width="15" height="18" alt="" title="Tux by Larry Ewing">' : ''}${value}</dd></div>`).join('')}</dl>
+          <a class="cta" href="setup.html?plan=cloud&amp;tier=${id}">Select ${tier.title.toLowerCase()}</a>
+        </article>`).join('')}</div>` : `<h4>Cloud vs. your own physical server</h4>
+      <p>General budget estimates in USD for running a bot around the clock. See the cloud plans above for SetupBot pricing.</p>
+      <table class="hardware comparison" aria-label="Cloud and physical server comparison">
+        <thead><tr><th scope="col">Cost or requirement</th><th scope="col">Cloud server</th><th scope="col">Own physical server</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Initial hardware</th><td>$0</td><td>$400–$1,200+</td></tr>
+          <tr><th scope="row">Monthly server cost</th><td>$5–$50+</td><td>$0 rental</td></tr>
+          <tr><th scope="row">Electricity per month</th><td>Included</td><td>$5–$25+</td></tr>
+          <tr><th scope="row">Internet</th><td>Included</td><td>Existing broadband or a dedicated connection</td></tr>
+          <tr><th scope="row">Maintenance</th><td>Mostly handled by the provider</td><td>Your responsibility</td></tr>
+          <tr><th scope="row">24/7 operation</th><td>Yes</td><td>Yes, with reliable power and internet</td></tr>
+          <tr><th scope="row">Scaling</th><td>Upgrade your plan</td><td>Buy more hardware</td></tr>
+          <tr><th scope="row">Hardware failures</th><td>Provider handles repairs</td><td>You handle repairs</td></tr>
+        </tbody>
+      </table>
+      <p>You can reuse compatible hardware. The one-time SetupBot setup fee is separate.</p>
+      <a class="cta" href="setup.html?plan=${key}">Select ${plan.title.toLowerCase()}</a>`}`;
+    document.getElementById('plans').append(card);
+  }
+</script>
+</body>
+</html>

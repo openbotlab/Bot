@@ -1,0 +1,22 @@
+export const bots = {
+  inbox: ['Inbox Bot', '✉', 1, ['Summarize unread messages', 'Flag priority emails', 'Draft replies for review']],
+  research: ['Research Bot', '⌕', 5, ['Find relevant sources', 'Compare findings', 'Write cited research briefs']],
+  github: ['GitHub Bot', '⑂', 7, ['Summarize pull requests', 'Track open issues', 'Report repository activity']],
+  workflow: ['Workflow Bot', '↻', 9, ['Schedule recurring tasks', 'Run steps across connected apps', 'Report workflow results']],
+  calendar: ['Calendar Bot', '▦', 2, ['Summarize upcoming meetings', 'Find open time slots', 'Prepare daily agendas']],
+  support: ['Support Bot', '☏', 5, ['Sort support tickets', 'Draft help replies', 'Flag requests for escalation']],
+  sales: ['Sales Bot', '↗', 5, ['Summarize account activity', 'Draft follow-ups', 'Track next steps']],
+  meeting: ['Meeting Bot', '☷', 3, ['Summarize meeting notes', 'Extract action items', 'Draft a follow-up recap']],
+  documents: ['Document Bot', '▤', 2, ['Summarize documents', 'Extract key sections', 'Draft outlines and revisions']],
+  spreadsheet: ['Spreadsheet Bot', '⊞', 3, ['Clean rows and columns', 'Summarize key metrics', 'Flag missing values']],
+  reporting: ['Reporting Bot', '▥', 4, ['Collect recurring metrics', 'Compare reporting periods', 'Draft weekly summaries']],
+  social: ['Social Bot', '✦', 2, ['Draft posts', 'Suggest content variations', 'Organize a publishing calendar']],
+  content: ['Content Bot', '✎', 3, ['Outline articles', 'Draft copy', 'Repurpose existing content']],
+  monitoring: ['Monitoring Bot', '◉', 4, ['Run scheduled checks', 'Flag unusual results', 'Summarize status changes']],
+  security: ['Security Review Bot', '◇', 7, ['Summarize security findings', 'Group issues by severity', 'Draft remediation tasks']],
+  qa: ['QA Bot', '✓', 5, ['Draft test cases', 'Triage bug reports', 'Summarize test results']],
+  recruiting: ['Recruiting Bot', '♙', 4, ['Draft job descriptions', 'Prepare interview questions', 'Organize interview schedules']],
+  finance: ['Finance Bot', '＄', 5, ['Organize invoice records', 'Flag missing fields', 'Draft expense summaries']],
+  knowledge: ['Knowledge Bot', '▣', 6, ['Search connected documents', 'Answer with source references', 'Find related resources']],
+  project: ['Project Bot', '⚑', 3, ['Summarize project updates', 'Track deadlines', 'Highlight blockers']]
+};

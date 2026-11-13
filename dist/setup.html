@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Set up your bot | SetupBot</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/setupbot-green-favicon.png">
+<link rel="apple-touch-icon" href="/setupbot-green-logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#0a0a0a;color:#fafafa;font:14px/1.55 Geist,Arial,sans-serif}
+main{max-width:800px;margin:auto;padding:60px 22px}a{color:#b5dc9e;text-underline-offset:3px}h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:20px 0 8px}h2{font-size:17px;margin:0 0 12px}p,li{color:#b4b4b4}p{margin:0 0 15px}.layout{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:22px;align-items:start}.card{padding:19px;border:1px solid #303030;border-radius:10px;background:#131313}
+label{display:block;font-weight:600;margin-top:13px}input,select{width:100%;border:1px solid #515151;border-radius:6px;background:#0c0c0c;padding:9px 10px;color:inherit;font:inherit;margin-top:5px}ul{padding-left:18px}.amount{font-size:25px;color:#fff;font-weight:600}button{font:inherit;font-weight:700;font-size:12px;background:#39801C;color:#fff;border:0;border-radius:6px;padding:8px 12px;cursor:pointer}button:hover{background:#306c18}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #b5dc9e;outline-offset:3px}.result{margin:14px 0 0;color:#d7edca}[hidden]{display:none!important}@media(max-width:590px){main{padding-top:32px}.layout{grid-template-columns:1fr}}
+.catalog{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;margin-top:22px}.catalog .card{background:#1a1a1a}.catalog a{display:inline-block;background:#39801c;color:white;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:700;font-size:12px}
+.catalog .card{display:flex;flex-direction:column;align-items:flex-start}.catalog h2{display:flex;align-items:center;gap:8px;margin-bottom:0}.catalog ul{margin:10px 0 16px}.catalog a{margin-top:auto}.bot-logo{display:inline-grid;place-items:center;width:28px;height:28px;flex:none;border-radius:6px;background:#263b1d;color:#c8edb3;font-size:17px}
+.catalog .bot-features{list-style:none;padding:0}.bot-features li{display:flex;gap:7px;margin-bottom:4px}.bot-features span{color:#b5dc9e}.bot-cost strong{color:#fff;font-size:22px;margin-right:3px}
+</style>
+</head>
+<body>
+<main>
+<a href="./#hosting">Back to plans</a>
+<h1 id="title">Set up your bot</h1>
+<p id="intro">Choose a hosting plan to continue.</p>
+<section id="catalog" class="catalog" aria-label="Available bots" hidden></section>
+<form id="choose-plan" class="card" hidden>
+  <label for="hosting-choice">Hosting plan</label>
+  <select id="hosting-choice" required></select>
+  <p style="margin-top:12px">Example one-time setup fees in USD. Server costs are separate.</p>
+  <button type="submit">Continue to setup</button>
+</form>
+<noscript><p>Enable JavaScript to use the setup preview.</p></noscript>
+<form id="setup" class="layout" hidden>
+  <div class="card">
+    <h2>Bot configuration</h2>
+    <label for="bot">Bot name</label>
+    <input id="bot" maxlength="80" placeholder="For example, Inbox assistant" required>
+    <label for="source">Bot source</label>
+    <select id="source"><option>Create a new bot</option><option>Use an existing bot</option></select>
+    <label id="server-label" for="server">Server details</label>
+    <input id="server" maxlength="80" required>
+    <p style="margin-top:12px">Use sample details for this preview.</p>
+  </div>
+  <div class="card">
+    <h2>Setup and payment summary</h2>
+    <ul id="details"></ul>
+    <p id="cloud-tier" hidden></p>
+    <p id="bot-price" hidden></p>
+    <p class="amount" id="price"></p>
+    <p>Example one-time setup fee in USD. Server charges are separate.</p>
+    <button type="submit">Preview payment</button>
+    <p id="result" class="result" role="status" hidden></p>
+  </div>
+</form>
+</main>
+<script type="module">
+  import { plans, formatPrice, cloudTiers, formatMonthly, tierSpecs } from './plans.js';
+  import { bots } from './bots.js';
+  const params = new URLSearchParams(location.search);
+  const key = params.get('plan');
+  const botId = params.get('bot');
+  const selectedBot = Object.hasOwn(bots, botId) ? bots[botId] : null;
+  const creating = params.get('mode') === 'create' && key === null;
+  if (creating && !selectedBot) {
+    document.querySelector('main > a').href = './';
+    document.querySelector('main > a').textContent = 'Back to SetupBot';
+    document.getElementById('title').textContent = 'Choose your bot';
+    document.getElementById('intro').textContent = 'Each bot has a one-time price in USD and works with any hosting plan. Setup and hosting costs are separate.';
+    const catalog = document.getElementById('catalog');
+    for (const [id, [name, logo, price, features]] of Object.entries(bots)) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `<h2><span class="bot-logo" aria-hidden="true">${logo}</span>${name}</h2>
+        <ul class="bot-features">${features.map(feature => `<li><span aria-hidden="true">✓</span>${feature}</li>`).join('')}</ul>
+        <p class="bot-cost"><strong>${formatPrice({price})}</strong> one time</p>
+        <a href="?mode=create&amp;bot=${id}">Select ${name}</a>`;
+      catalog.append(card);
+    }
+    catalog.hidden = false;
+  }
+  if (creating && selectedBot) {
+    document.querySelector('main > a').href = '?mode=create';
+    document.querySelector('main > a').textContent = 'Back to bots';
+    document.getElementById('title').textContent = 'Choose hosting for ' + selectedBot[0];
+    document.getElementById('intro').textContent = formatPrice({price: selectedBot[2]}) + ' one-time bot price. Choose where your new bot will run.';
+    const chooser = document.getElementById('choose-plan');
+    const select = document.getElementById('hosting-choice');
+    for (const [id, tier] of Object.entries(cloudTiers)) {
+      select.add(new Option(tier.title + ' · ' + formatPrice(plans.cloud) + ' setup · ' + formatMonthly(tier) + ' hosting', 'cloud:' + id));
+    }
+    select.add(new Option(plans.own.title + ' · ' + formatPrice(plans.own) + ' setup', 'own'));
+    chooser.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const [plan, tier] = select.value.split(':');
+      const next = new URLSearchParams({plan, bot: botId});
+      if (tier) next.set('tier', tier);
+      location.search = next.toString();
+    });
+    chooser.hidden = false;
+  }
+  if (Object.hasOwn(plans, key)) {
+    const plan = plans[key];
+    const price = formatPrice({price: plan.price + (selectedBot?.[2] ?? 0)});
+    if (selectedBot) {
+      document.querySelector('main > a').href = '?mode=create&bot=' + botId;
+      document.querySelector('main > a').textContent = 'Back to hosting';
+      document.getElementById('bot').value = selectedBot[0];
+      document.querySelector('label[for="source"]').hidden = true;
+      document.getElementById('source').hidden = true;
+      const breakdown = document.getElementById('bot-price');
+      breakdown.textContent = selectedBot[0] + ' ' + formatPrice({price: selectedBot[2]}) + ' + setup ' + formatPrice(plan);
+      breakdown.hidden = false;
+      document.querySelector('#price + p').textContent = 'One-time total in USD. Server charges are separate.';
+    }
+    const tierId = params.get('tier');
+    const tier = key === 'cloud' ? (Object.hasOwn(cloudTiers, tierId) ? cloudTiers[tierId] : cloudTiers.starter) : null;
+    if (tier) {
+      const summary = document.getElementById('cloud-tier');
+      const specs = tierSpecs(tier).map(([label, value]) => label + ' ' + value).join(' · ');
+      summary.textContent = tier.title + ' · ' + formatMonthly(tier) + ' hosting · ' + specs;
+      summary.hidden = false;
+    }
+    const setup = document.getElementById('setup');
+    const result = document.getElementById('result');
+    document.getElementById('title').textContent = (selectedBot ? selectedBot[0] + ' · ' : '') + plan.title + ' setup';
+    document.getElementById('intro').textContent = plan.description;
+    document.getElementById('server-label').textContent = plan.field;
+    document.getElementById('server').placeholder = plan.placeholder;
+    document.getElementById('price').textContent = price;
+    for (const detail of plan.details) {
+      const item = document.createElement('li');
+      item.textContent = detail;
+      document.getElementById('details').append(item);
+    }
+    setup.hidden = false;
+    setup.addEventListener('input', () => { result.hidden = true; });
+    setup.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const bot = document.getElementById('bot').value.trim();
+      const server = document.getElementById('server').value.trim();
+      if (!bot || !server) {
+        result.textContent = 'Enter a bot name and server details.';
+      } else {
+        const source = selectedBot?.[0] ?? document.getElementById('source').value;
+        result.textContent = `${bot} · ${source} · ${server} · ${price} USD. This is a preview. No payment was collected and no bot was deployed.`;
+      }
+      result.hidden = false;
+    });
+  }
+</script>
+</body>
+</html>
